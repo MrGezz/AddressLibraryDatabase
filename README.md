@@ -5,6 +5,19 @@ The Address Library Database consists of a `relib` file and a `rename` file. The
 
 When the Address Library Database has been loaded by the Address Library Manager, each version of the game that is supported will be listed. You can then select a version of the game and dump its identifier and offset pairs, or create the Address Library for either that specific version of the game or all supported versions of the game.
 
+## Supported versions (current state)
+
+| Version | IDs | Hashes | Notes |
+|---|---|---|---|
+| 1.6.317.0 – 1.6.1179.0 | 415,815 – 428,510 | 0 – 182,196 | Original AE range |
+| 1.7.99.0 | 435,154 | 152,848 | First format-5 (dense) release; HighVID 565,072 |
+| 1.7.104.0 | 435,162 | 0 | Official bin imported 2026-09-12; HighVID 565,758 (max assigned id) |
+
+Format 5 (dense `uint32 offset[id]` table, 96-byte header) is required for 1.7.x.
+`addrlib.py` and the Manager both read and write it; zero slots are unassigned and are
+skipped on import. The `DiffCalculator/addrlib.py` selftest round-trips the 1.7.104 bin
+byte-identically (435,162 ids, format 5).
+
 ## Importing to the Address Library Database
 Export offset and names pairs from your IDA database to the `IDANames.txt` file by running either the `IDAExportNames_IDA6.py` script or the `IDAExportNames_IDA7.py` script in IDA, depending on the version of IDA you are using. Before running the script, the `GetFilePath` function must be edited to return the directory in which the `IDANames.txt` file will be created. The `IDANames.txt` file can then be imported to the Address Library Database using the Address Library Manager by selecting `Names`, clicking `Import from IDA script result`, and then selecting the version of the game that was used to create your IDA database.
 
